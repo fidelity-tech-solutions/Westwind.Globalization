@@ -81,7 +81,7 @@ namespace Westwind.Globalization.Administration
         //public IEnumerable<ResourceIdItem> GetResourceList(string resourceSet)
         public ActionResult GetResourceList(string resourceSet)
         {
-            var ids = Manager.GetAllResourceIds(resourceSet);
+            var ids = Manager.GetAllResourceIds(resourceSet, "");
             if (ids == null)
                 throw new ApplicationException(DbIRes.T("ResourceSetLoadingFailed", STR_RESOURCESET) + ":" +
                                                Manager.ErrorMessage);
@@ -94,7 +94,7 @@ namespace Westwind.Globalization.Administration
         /// <summary>
         /// Returns a shaped objects that can be displayed in an editable grid the grid view for locale ids
         /// of resources.
-        /// 
+        ///
         /// {
         ///   "Locales": [
         ///     "",
@@ -204,10 +204,11 @@ namespace Westwind.Globalization.Administration
 
         [HttpGet]
         [Route("GetResourceListHtml")]
-        public JsonResult GetResourceListHtml(string resourceSet)
+        public JsonResult GetResourceListHtml(string resourceSet, string localeId)
         //public IEnumerable<ResourceIdListItem> GetResourceListHtml(string resourceSet)
         {
-            var ids = Manager.GetAllResourceIdListItems(resourceSet);
+            localeId = localeId == null ? "" : localeId;
+            var ids = Manager.GetAllResourceIdListItems(resourceSet, localeId);
             if (ids == null)
                 throw new ApplicationException(DbIRes.T("ResourceSetLoadingFailed", STR_RESOURCESET) + ":" +
                                                Manager.ErrorMessage);
@@ -233,7 +234,7 @@ namespace Westwind.Globalization.Administration
         /// Returns a list of the all the LocaleIds used in a given resource set
         /// </summary>
         /// <param name="resourceSet"></param>
-        /// <returns></returns>        
+        /// <returns></returns>
         [Route("GetLocaleIds")]
         public JsonResult GetAllLocaleIds(string resourceSet)
         // public IEnumerable<object> GetAllLocaleIds(string resourceSet)
@@ -538,7 +539,7 @@ namespace Westwind.Globalization.Administration
         }
 
         /// <summary>
-        /// Delete an individual resource. Pass resourceId, resourceSet and localeId 
+        /// Delete an individual resource. Pass resourceId, resourceSet and localeId
         /// as a map. If localeId is null all the resources are deleted.
         /// </summary>
         /// <param name="parm"></param>
@@ -572,12 +573,12 @@ namespace Westwind.Globalization.Administration
 
         /// <summary>
         /// Renames a resource key to a new name.
-        /// 
+        ///
         /// Requires a JSON object with the following properties:
         /// {
         /// }
-        /// 
-        /// 
+        ///
+        ///
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
@@ -706,7 +707,7 @@ namespace Westwind.Globalization.Administration
             else if (service == "bing")
             {
                 if (string.IsNullOrEmpty(DbResourceConfiguration.Current.BingClientId))
-                    result = ""; // don't do anything -  just return blank 
+                    result = ""; // don't do anything -  just return blank
                 else
                     result = translate.TranslateBing(text, from, to);
             }
@@ -894,7 +895,7 @@ namespace Westwind.Globalization.Administration
 #if NETFULL
                     // Use automated generation
                     str.CreateResxDesignerClassFromResxFile(file, resource, nameSpace, false);
-#else                    
+#else
                     // Manual code generation
                     str.CreateResxDesignerClassFromResourceSet(resource, nameSpace, resource, file);
 #endif
