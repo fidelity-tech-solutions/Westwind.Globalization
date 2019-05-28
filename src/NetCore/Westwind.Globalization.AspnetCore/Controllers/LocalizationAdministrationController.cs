@@ -799,22 +799,23 @@ namespace Westwind.Globalization.Administration
 
             return Json(new
             {
+                // Don't expose some config settings to client
                 //ProviderFactory = providerFactory,
-                config.ConnectionString,
-                config.ResourceTableName,
-                DbResourceProviderType = config.DbResourceDataManagerType.Name,
-                DataProvider = config.DataProvider.ToString(),
+                // config.ConnectionString,
+                // config.ResourceTableName,
+                // DbResourceProviderType = config.DbResourceDataManagerType.Name,
+                // DataProvider = config.DataProvider.ToString(),
                 config.ResxExportProjectType,
-                config.ResxBaseFolder,
-                config.ResourceBaseNamespace,
+                // config.ResxBaseFolder,
+                // config.ResourceBaseNamespace,
                 config.StronglyTypedGlobalResource,
                 config.GoogleApiKey,
                 config.BingClientId,
                 config.AddMissingResources,
                 ResourceAccessMode = config.ResourceAccessMode.ToString(),
 
-                Os = System.Runtime.InteropServices.RuntimeInformation.OSDescription,
-                AspNetVersion = v.ToString()
+                // Os = System.Runtime.InteropServices.RuntimeInformation.OSDescription,
+                // AspNetVersion = v.ToString()
 
             }, jsonSettings);
         }
