@@ -26,18 +26,29 @@ namespace Westwind.Globalization
         /// </summary>
         /// <param name="resourceSet"></param>
         /// <returns></returns>
-        public override List<ResourceIdItem> GetAllResourceIds(string resourceSet)
+        public override List<ResourceIdItem> GetAllResourceIds(string resourceSet, string targetLocaleId)
         {
             using (var data = GetDb())
             {
                 string sql = string.Format(
-                 @"select ResourceId, (MAX(length(VALUE)) > 0) as HasValue
-	  	from {0}
-        where ResourceSet=@ResourceSet
-	    group by ResourceId",Configuration.ResourceTableName);
+                    @"select ResourceId,
+                    CAST( MAX(length(l.Value)) > 0 as bit ) as HasValue,
+                    case
+                        WHEN l2.Updated is null THEN 1
+                        WHEN l2.Updated <= l.Updated THEN 1
+                        ELSE 0
+                    end
+                    from {0} l
+                    left join {0} l2
+                    on l2.ResourceId=l.ResourceId
+                    and l2.ResourceSet=l.ResourceSet
+                    and l2.LocaleId=@TargetLocaleId
+                    where ResourceSet=@ResourceSet
+                    and l.LocaleId = ''", Configuration.ResourceTableName);
 
                 var items = data.Query<ResourceIdItem>(sql,
-                    data.CreateParameter("@ResourceSet", resourceSet));
+                    data.CreateParameter("@ResourceSet", resourceSet),
+                    data.CreateParameter("@TargetLocaleId", targetLocaleId));
                 if (items == null)
                 {
                     SetError(data.ErrorMessage);
@@ -90,9 +101,9 @@ namespace Westwind.Globalization
             tableName = tableName.ToLower();
 
             string sql = @"SELECT EXISTS(
-            SELECT * 
-                FROM information_schema.tables 
-            WHERE                 
+            SELECT *
+                FROM information_schema.tables
+            WHERE
                 table_name = @0
             )";
 
@@ -186,11 +197,11 @@ namespace Westwind.Globalization
 		ResourceId VARCHAR(1024) NOT NULL,
 		Value TEXT,
 		LocaleId VARCHAR(10),
-		ResourceSet VARCHAR(512), 
+		ResourceSet VARCHAR(512),
 		Type VARCHAR(512),
 		BinFile BYTEA,
 		TextFile TEXT,
-		Filename VARCHAR(128), 
+		Filename VARCHAR(128),
 		Comment VARCHAR(512),
 	   ValueType INTEGER DEFAULT 0,
 	   Updated TIMESTAMP DEFAULT NOW()
