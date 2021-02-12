@@ -10,7 +10,7 @@ using Westwind.Utilities.Data;
 namespace Westwind.Globalization
 {
     /// <summary>
-    /// Sql CE implementation of the Db SQL data provider
+    /// SqLite implementation of the Db SQL data provider
     /// </summary>
     /// <remarks>
     /// IMPORTANT: Make sure you add the System.Data.SQLite.Core
