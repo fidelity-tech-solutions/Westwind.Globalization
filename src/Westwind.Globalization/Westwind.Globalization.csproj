@@ -25,7 +25,7 @@
 
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
