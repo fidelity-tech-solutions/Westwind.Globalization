@@ -78,7 +78,7 @@ namespace Westwind.Globalization.AspnetCore
         /// <inheritdoc />
         public LocalizedString GetString(string name, params object[] values) => _localizer.GetString(name, values);
 
-#if NET5_0
+#if NET5_0 || NET6_0
 #else
         /// <inheritdoc />
         [Obsolete]

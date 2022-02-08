@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp2.1;</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1;netcoreapp2.1;</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Version>3.1.2</Version>
     <Authors>Rick Strahl</Authors>
     <Company>West Wind Technologies</Company>
@@ -43,7 +46,7 @@
   </PropertyGroup>
 
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
