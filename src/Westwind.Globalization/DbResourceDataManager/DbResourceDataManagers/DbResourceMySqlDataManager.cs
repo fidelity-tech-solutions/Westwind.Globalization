@@ -40,7 +40,8 @@ namespace Westwind.Globalization
                         WHEN l2.Updated is null THEN 1
                         WHEN l2.Updated < l.Updated THEN 1
                         ELSE 0
-                    end as NeedsUpdate
+                    end as NeedsUpdate,
+                    substring(l.Value,1,100) as Value
                     from {0} l
                     left join {0} l2
                     on l2.ResourceId=l.ResourceId
@@ -71,6 +72,7 @@ namespace Westwind.Globalization
                         ResourceId = reader["ResourceId"] as string,
                         HasValue = hasVal,
                         NeedsUpdate = needsUpdate,
+                        Value = reader["Value"] as string,
                     });
                 }
 

@@ -544,13 +544,14 @@ namespace Westwind.Globalization
                     case
                         WHEN len( CAST(Value as nvarchar(10))) > 0 THEN 1
                         ELSE 0
-                    end ) as Bit) as HasValue
+                    end ) as Bit) as HasValue,
                 CAST( MAX(
                     case
                         WHEN l2.Updated IS NULL THEN 1
                         WHEN l2.Updated <= l.Updated THEN 1
                         ELSE 0
-                    end ) as BIT) as NeedsUpdate
+                    end ) as BIT) as NeedsUpdate,
+                SUBSTRING(l.Value,1,100) as Value
                 from {0} l
                 left join {0} l2
                 on l2.ResourceId = l.ResourceId
