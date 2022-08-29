@@ -44,7 +44,8 @@ namespace Westwind.Globalization
                         WHEN l2.Updated is null THEN 1
                         WHEN l2.Updated <= l.Updated THEN 1
                         ELSE 0
-                    end
+                    end,
+                    substr(l.Value,1,100) as Value
                     from {0} l
                     left join {0} l2
                     on l2.ResourceId=l.ResourceId
