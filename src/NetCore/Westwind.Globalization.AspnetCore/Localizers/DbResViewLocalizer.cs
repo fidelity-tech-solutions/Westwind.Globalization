@@ -78,13 +78,6 @@ namespace Westwind.Globalization.AspnetCore
         /// <inheritdoc />
         public LocalizedString GetString(string name, params object[] values) => _localizer.GetString(name, values);
 
-#if NET6_0
-#else
-        /// <inheritdoc />
-        [Obsolete]
-        public IHtmlLocalizer WithCulture(CultureInfo culture) => _localizer.WithCulture(culture);
-#endif
-
         /// <inheritdoc />
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) =>
             _localizer.GetAllStrings(includeParentCultures);
